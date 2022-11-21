@@ -6,6 +6,7 @@ import lombok.val;
 import org.junit.jupiter.api.*;
 import ru.netology.data.DataHelper;
 import ru.netology.data.SqlHelper;
+import ru.netology.pade.CreditGate;
 import ru.netology.pade.HomePage;
 import ru.netology.pade.PaymentGate;
 
@@ -31,7 +32,7 @@ public class PaymentGateTest {
 
 
     @Test
-    void submittingAFormWithAnAllowedCard() { // 1 Отправка формы с разрешенной картой
+    void submittingAFormWithAnAllowedCard() { //  Отправка формы с разрешенной картой
         val homePage = new HomePage();
         homePage.DebitCardPayment();
         val cardNumber = DataHelper.cardNumberApproved();
@@ -46,7 +47,7 @@ public class PaymentGateTest {
         Assertions.assertEquals("APPROVED", paymentStatus);
     }
     @Test
-    void submittingAFormWithAnUnresolvedCard(){ //2 Отправка формы с неразрешенной картой
+    void submittingAFormWithAnUnresolvedCard(){ // Отправка формы с неразрешенной картой
         val homePage = new HomePage();
         homePage.DebitCardPayment();
         val cardNumber = DataHelper.cardNumberDeclined();
@@ -61,7 +62,7 @@ public class PaymentGateTest {
         Assertions.assertEquals("DECLINED", paymentStatus);
     }
     @Test
-    void sendingTheFormWithEnteredZerosInTheCardNumberField(){ // 3 Отправка формы с ведёнными нулями в поле "Номер карты"
+    void sendingTheFormWithEnteredZerosInTheCardNumberField(){ //  Отправка формы с ведёнными нулями в поле "Номер карты"
         val homePage = new HomePage();
         homePage.DebitCardPayment();
         val cardNumber = DataHelper.cardNumberZero();
@@ -74,7 +75,20 @@ public class PaymentGateTest {
         paymentGate.checkWrongFormatMessage();
     }
     @Test
-    void sendingAFormWithAShortCardNumber(){ // 4 Отправка формы с коротким номером карты
+    void sendingTheFormWithEnteredZerosInTheCardNumberField2(){ //  Отправка формы с ведёнными 16 нулями в поле "Номер карты"
+        val homePage = new HomePage();
+        homePage.DebitCardPayment();
+        val cardNumber = DataHelper.cardNumberZero2();
+        val month = DataHelper.currentMonth();
+        val year = DataHelper.currentYear();
+        val owner = DataHelper.owner();
+        val cvc = DataHelper.CVC();
+        val paymentGate = new PaymentGate();
+        paymentGate.fillingFieldsFormat(cardNumber, month,year,owner,cvc);
+        paymentGate.errorOperation();
+    }
+    @Test
+    void sendingAFormWithAShortCardNumber(){ //  Отправка формы с коротким номером карты
         val homePage = new HomePage();
         homePage.DebitCardPayment();
         val cardNumber = DataHelper.shortCard();
@@ -87,7 +101,7 @@ public class PaymentGateTest {
         paymentGate.checkWrongFormatMessage();
     }
     @Test
-    void sendingAFormWithAnEmptyFieldCardNumber(){ // 5 Отправка формы с пустым полем "Номер карты"
+    void sendingAFormWithAnEmptyFieldCardNumber(){ //  Отправка формы с пустым полем "Номер карты"
         val homePage = new HomePage();
         homePage.DebitCardPayment();
         val cardNumber = DataHelper.emptyCardField();
@@ -100,7 +114,7 @@ public class PaymentGateTest {
         paymentGate.checkWrongFormatMessage();
     }
     @Test
-    void submitFormWithZeroMonth(){ // 6 Отправка формы с нулевым месяцем
+    void submitFormWithZeroMonth(){ //  Отправка формы с нулевым месяцем
         val homePage = new HomePage();
         homePage.DebitCardPayment();
         val cardNumber = DataHelper.cardNumberApproved();
@@ -113,7 +127,7 @@ public class PaymentGateTest {
         paymentGate.checkIncorrectMonthFormat();
     }
     @Test
-    void submittingTheFormWithTheThirteenthMonth(){ // 7 Отправка формы с тринадцатым месяцем
+    void submittingTheFormWithTheThirteenthMonth(){ //  Отправка формы с тринадцатым месяцем
         val homePage = new HomePage();
         homePage.DebitCardPayment();
         val cardNumber = DataHelper.cardNumberApproved();
@@ -126,7 +140,7 @@ public class PaymentGateTest {
         paymentGate.checkIncorrectMonth();
     }
     @Test
-    void submittingAFormWithAnEmptyMonthField(){ // 8 Отправка формы с пустым полем "Месяц"
+    void submittingAFormWithAnEmptyMonthField(){ //  Отправка формы с пустым полем "Месяц"
         val homePage = new HomePage();
         homePage.DebitCardPayment();
         val cardNumber = DataHelper.cardNumberApproved();
@@ -139,7 +153,7 @@ public class PaymentGateTest {
         paymentGate.checkIncorrectMonthFormat();
     }
     @Test
-    void submittingTheFormWithThePastYear(){// 9 Отправка формы с прошедшим годом
+    void submittingTheFormWithThePastYear(){//  Отправка формы с прошедшим годом
         val homePage = new HomePage();
         homePage.DebitCardPayment();
         val cardNumber = DataHelper.cardNumberApproved();
@@ -152,7 +166,7 @@ public class PaymentGateTest {
         paymentGate.checkExpiredYear();
     }
     @Test
-    void submittingTheFormWithZerosEnteredInTheYearField(){ // 10 Отправка формы с введёнными нулями в поле "Год"
+    void submittingTheFormWithZerosEnteredInTheYearField(){ //  Отправка формы с введённым нулём в поле "Год"
         val homePage = new HomePage();
         homePage.DebitCardPayment();
         val cardNumber = DataHelper.cardNumberApproved();
@@ -165,7 +179,20 @@ public class PaymentGateTest {
         paymentGate.checkWrongYearFormat();
     }
     @Test
-    void submittingAFormWithAnEmptyYearField(){ // 11 Отправка формы с пустым полем "Год"
+    void submittingTheFormWithZerosEnteredInTheYearField2(){ //  Отправка формы с введёнными нулями в поле "Год"
+        val homePage = new HomePage();
+        homePage.DebitCardPayment();
+        val cardNumber = DataHelper.cardNumberApproved();
+        val month = DataHelper.currentMonth();
+        val year = DataHelper.zeroYear2();
+        val owner = DataHelper.owner();
+        val cvc = DataHelper.CVC();
+        val paymentGate = new PaymentGate();
+        paymentGate.fillingFieldsFormat(cardNumber, month,year,owner,cvc);
+        paymentGate.checkExpiredYear();
+    }
+    @Test
+    void submittingAFormWithAnEmptyYearField(){ //  Отправка формы с пустым полем "Год"
         val homePage = new HomePage();
         homePage.DebitCardPayment();
         val cardNumber = DataHelper.cardNumberApproved();
@@ -178,7 +205,7 @@ public class PaymentGateTest {
         paymentGate.checkWrongYearFormat();
     }
     @Test
-    void submittingTheFormWithNumbersEnteredInTheOwnerField(){ //12 Отправка формы с введенными цифрами в поле "Владелец"
+    void submittingTheFormWithNumbersEnteredInTheOwnerField(){ // Отправка формы с введенными цифрами в поле "Владелец"
         val homePage = new HomePage();
         homePage.DebitCardPayment();
         val cardNumber = DataHelper.cardNumberApproved();
@@ -191,7 +218,7 @@ public class PaymentGateTest {
         paymentGate.errorOperation();
     }
     @Test
-    void submittingAFormWithAnEmptyOwnerField(){ // 13 Отправка формы с пустым полем "Владелец"
+    void submittingAFormWithAnEmptyOwnerField(){ //  Отправка формы с пустым полем "Владелец"
         val homePage = new HomePage();
         homePage.DebitCardPayment();
         val cardNumber = DataHelper.cardNumberApproved();
@@ -204,7 +231,7 @@ public class PaymentGateTest {
         paymentGate.checkOwnerEmptyField();
     }
     @Test
-    void submittingAFormWithIncorrectCVC(){ // 14 Отправка формы с некорректным "CVC/CVV"
+    void submittingAFormWithIncorrectCVC(){ //  Отправка формы с некорректным "CVC/CVV"
         val homePage = new HomePage();
         homePage.DebitCardPayment();
         val cardNumber = DataHelper.cardNumberApproved();
@@ -217,7 +244,20 @@ public class PaymentGateTest {
         paymentGate.checkWrongCVCFormat();
     }
     @Test
-    void submittingAFormWithAnEmptyCVCField(){ // 15 Отправка формы с пустым полем "CVC/CVV"
+    void submittingTheFormWithZerosEnteredInTheCVCField(){ //  Отправка формы с веденными нулями в поле "CVC/CVV"
+        val homePage = new HomePage();
+        homePage.DebitCardPayment();
+        val cardNumber = DataHelper.cardNumberApproved();
+        val month = DataHelper.currentMonth();
+        val year = DataHelper.currentYear();
+        val owner = DataHelper.owner();
+        val cvc = DataHelper.zeroCVC();
+        val paymentGate = new PaymentGate();
+        paymentGate.fillingFieldsFormat(cardNumber, month,year,owner,cvc);
+        paymentGate.errorOperation();
+    }
+    @Test
+    void submittingAFormWithAnEmptyCVCField(){ //  Отправка формы с пустым полем "CVC/CVV"
         val homePage = new HomePage();
         homePage.DebitCardPayment();
         val cardNumber = DataHelper.cardNumberApproved();

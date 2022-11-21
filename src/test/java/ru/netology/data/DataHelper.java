@@ -28,6 +28,9 @@ public class DataHelper {
     public static CardNumber cardNumberZero() { //номер карты нулевой
         return new CardNumber("0000 0000 0000");
     }
+    public static CardNumber cardNumberZero2() { //номер карты нулевой
+        return new CardNumber("0000 0000 0000 0000");
+    }
 
     public static CardNumber shortCard() { // короткая карта
         return new CardNumber("4444");
@@ -70,6 +73,9 @@ public class DataHelper {
     public static String zeroYear() { // нулевой год
         return "0";
     }
+    public static String zeroYear2() { // нулевой год
+        return "00";
+    }
 
     public static String emptyYearField() { // пустое поле год
         return "";
@@ -93,6 +99,9 @@ public class DataHelper {
 
     public static String wrongCVC() { // не правильный cvc
         return faker.number().digits(2);
+    }
+    public static String zeroCVC() { //нулевой cvc
+        return "000";
     }
 
     public static String emptyCvcField() { //пустое поле cvc
